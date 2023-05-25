@@ -41,13 +41,18 @@ type DummyReconciler struct {
 
 func (r *DummyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("dummy", req.NamespacedName)
-	instance := &v1alpha1.Dummy{}
-	if err := r.Get(ctx, req.NamespacedName, instance); err != nil {
+	dummyInstance := &v1alpha1.Dummy{}
+	if err := r.Get(ctx, req.NamespacedName, dummyInstance); err != nil {
 		log.Error(err, "Could not get Dummy resource")
 		return ctrl.Result{}, nil
 	}
 
-	log.Info(fmt.Sprintf("Found Dummy resource %s in namespace %s, with message %s", instance.Name, instance.Namespace, instance.Spec.Message))
+	log.Info(fmt.Sprintf("Found Dummy resource %s in namespace %s, with message %s", dummyInstance.Name, dummyInstance.Namespace, dummyInstance.Spec.Message))
+
+	dummyPatchBase := client.MergeFrom(dummyInstance.DeepCopy())
+	dummyInstance.Status.SpecEcho = dummyInstance.Spec.Message
+	r.Status().Patch(ctx, dummyInstance, dummyPatchBase)
+
 	return ctrl.Result{}, nil
 }
 
