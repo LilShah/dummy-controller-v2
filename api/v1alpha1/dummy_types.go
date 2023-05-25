@@ -27,6 +27,7 @@ type DummySpec struct {
 
 // DummyStatus defines the observed state of Dummy
 type DummyStatus struct {
+	SpecEcho string `json:"specEcho"`
 }
 
 //+kubebuilder:object:root=true
