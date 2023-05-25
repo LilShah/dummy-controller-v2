@@ -6,4 +6,14 @@ plugins:
   scorecard.sdk.operatorframework.io/v2: {}
 projectName: dummy-controller-v2
 repo: github.com/LilShah/dummy-operator-v2
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: com
+  group: interview
+  kind: Dummy
+  path: github.com/LilShah/dummy-operator-v2/api/v1alpha1
+  version: v1alpha1
 version: "3"
