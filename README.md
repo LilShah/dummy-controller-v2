@@ -1,33 +1,69 @@
-# dummy-controller-v2
-// TODO(user): Add simple overview of use/purpose
+# Dummy Controller
 
-## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+## Overview
 
-## Getting Started
-You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster.
-**Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
+Dummy Controller is a simple example Kubernetes controller that echoes the message written in its spec to the status.
 
-### Running on the cluster
-1. Install Instances of Custom Resources:
-
-```sh
-kubectl apply -f config/samples/
+```yaml
+apiVersion: interview.com/v1alpha1
+kind: Dummy
+metadata:
+  name: dummy1
+  namespace: example
+spec:
+  message: "I'm just a dummy"
 ```
 
-2. Build and push your image to the location specified by `IMG`:
-	
-```sh
-make docker-build docker-push IMG=<some-registry>/dummy-controller-v2:tag
+The status gets updated as such:
+
+```yaml
+status:
+  specEcho: "I'm just a dummy"
 ```
-	
-3. Deploy the controller to the cluster with the image specified by `IMG`:
+
+## How it works
+
+This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
+
+It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+which provides a reconcile function responsible for synchronizing resources until the desired state is reached on the cluster
+
+## Installing Kind
+
+You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) ([Installation](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)) to get a local cluster for testing, or run against a remote cluster.
+
+After installing kind, you can start it by using `kind create cluster`
+
+**Note:** The kubernetes context should automatically switch to using `Kind`, but make sure to check with `kubectl config current-context`.
+
+## Test the controller
+
+The simplest method to install the controller for testing is to clone the [dummy-controller repo](https://github.com/LilShah/dummy-controller-v2) and from within it, run the following command:
 
 ```sh
-make deploy IMG=<some-registry>/dummy-controller-v2:tag
+make deploy
 ```
+
+**NOTE:** Run `make --help` for more information on all potential `make` targets
+
+Give it a few minutes to download and create the pod. You can check pod status by using:
+
+```sh
+kubectl get pods -n dummy-controller-v2-system
+```
+
+A sample Dummy CR is also provided within the repo:
+
+```sh
+kubectl apply -f config/samples/interview_v1alpha1_dummy.yaml
+```
+
+**NOTE:**: You will need [kubectl](https://kubernetes.io/docs/tasks/tools/) installed to run the above commands.
+
+## Uninstall
 
 ### Uninstall CRDs
+
 To delete the CRDs from the cluster:
 
 ```sh
@@ -35,46 +71,13 @@ make uninstall
 ```
 
 ### Undeploy controller
-UnDeploy the controller to the cluster:
+
+Undeploy the controller from the cluster:
 
 ```sh
 make undeploy
 ```
 
-## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
-
-### How it works
-This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-
-It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/) 
-which provides a reconcile function responsible for synchronizing resources untile the desired state is reached on the cluster 
-
-### Test It Out
-1. Install the CRDs into the cluster:
-
-```sh
-make install
-```
-
-2. Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
-
-```sh
-make run
-```
-
-**NOTE:** You can also run this in one step by running: `make install run`
-
-### Modifying the API definitions
-If you are editing the API definitions, generate the manifests such as CRs or CRDs using:
-
-```sh
-make manifests
-```
-
-**NOTE:** Run `make --help` for more information on all potential `make` targets
-
-More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
 
 ## License
 
@@ -91,4 +94,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
