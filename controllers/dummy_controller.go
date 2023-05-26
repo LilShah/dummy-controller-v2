@@ -52,7 +52,9 @@ func (r *DummyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 
 	dummyPatchBase := client.MergeFrom(dummyInstance.DeepCopy())
 	dummyInstance.Status.SpecEcho = dummyInstance.Spec.Message
-	r.Status().Patch(ctx, dummyInstance, dummyPatchBase)
+	if err := r.Status().Patch(ctx, dummyInstance, dummyPatchBase); err != nil {
+		return ctrl.Result{}, err
+	}
 
 	return ctrl.Result{}, nil
 }

@@ -64,7 +64,7 @@ func TestDummyController(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		dummy := getDummy("dummy", "default", test.input)
+		dummy := getDummy(testDummyName, testDummyNamespace, test.input)
 		scheme := runtime.NewScheme()
 		utilruntime.Must(v1alpha1.AddToScheme(scheme))
 
@@ -79,14 +79,14 @@ func TestDummyController(t *testing.T) {
 			context.TODO(),
 			reconcile.Request{
 				NamespacedName: types.NamespacedName{
-					Name:      dummy.Name,
-					Namespace: dummy.Namespace,
+					Name:      testDummyName,
+					Namespace: testDummyNamespace,
 				},
 			},
 		)
 		require.NoError(t, err)
 
-		err = r.Get(context.TODO(), types.NamespacedName{Name: dummy.Name, Namespace: dummy.Namespace}, dummy)
+		err = r.Get(context.TODO(), types.NamespacedName{Name: testDummyName, Namespace: testDummyNamespace}, dummy)
 		assert.NoError(t, err)
 
 		assert.Equal(t, test.expected, dummy.Spec.Message)
