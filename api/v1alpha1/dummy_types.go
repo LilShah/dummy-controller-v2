@@ -32,6 +32,7 @@ type DummyStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+//+kubebuilder:resource:path=dummies,scope=Namespaced
 
 // Dummy is the Schema for the dummies API
 type Dummy struct {
