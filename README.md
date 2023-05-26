@@ -21,6 +21,8 @@ status:
   specEcho: "I'm just a dummy"
 ```
 
+The image built for this repo is pushed to  [Docker Hub](https://hub.docker.com/repository/docker/lilshah/dummy-controller-v2/general).
+
 ## How it works
 
 This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
