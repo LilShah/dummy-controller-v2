@@ -46,7 +46,7 @@ make deploy
 
 **NOTE:** Run `make --help` for more information on all potential `make` targets
 
-Give it a few minutes to download and create the pod. You can check pod status by using:
+Give it a few minutes to download from [Docker Hub](https://hub.docker.com/repository/docker/lilshah/dummy-controller-v2/general) and create the pod.  You can check pod status by using:
 
 ```sh
 kubectl get pods -n dummy-controller-v2-system
