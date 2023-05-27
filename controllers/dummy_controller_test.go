@@ -59,6 +59,7 @@ func TestDummyController(t *testing.T) {
 	}{
 		{"Hello from the other side", "Hello from the other side"},
 		{"", ""},
+		{"👀😂😉⚠️", "👀😂😉⚠️"},
 		{"Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long", "Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long"},
 		{"!@#$%^&*()_+|\"``~", "!@#$%^&*()_+|\"``~"},
 	}
